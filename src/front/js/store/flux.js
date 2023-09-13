@@ -13,7 +13,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			token: localStorage.getItem("token") ?? undefined,
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -46,7 +47,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
-			}
+			},
+			savetoken: (token) =>{
+				setStore({ token })
+				localStorage.setItem("token", token)
+			},
+			checkLogin: (redirect) => {
+				const token = localStorage.getItem("token")
+				const store = getStore()
+				if (token == null || !store.token) {
+					redirect("/Login")
+				}
+			},
 		}
 	};
 };
